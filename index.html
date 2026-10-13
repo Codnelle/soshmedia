@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" data-fit>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>intro | Sosh Media</title>
+<link rel="icon" href="assets/img/logo.png">
+<script src="js/units.js?v=43"></script>
+<link rel="stylesheet" href="css/fonts.css?v=43">
+<link rel="stylesheet" href="css/intro.css?v=43">
+</head>
+<body>
+
+<div id="gate">
+  <div id="gate-stars"></div>
+  <div class="pulse-wrap">
+    <div class="gate-pulse"></div>
+    <div class="gate-pulse"></div>
+    <div class="gate-pulse"></div>
+  </div>
+</div>
+
+<main class="intro"><div class="stage">
+  <div class="corner tl">Sosh Media</div>
+  <div class="corner tr">Creative Marketing Studio</div>
+
+  <div class="intro-word reveal" style="--d:.1s">s<span>o</span>sh</div>
+  <img class="intro-logo blur-in" src="assets/img/logo-intro.png" alt="">
+
+  <h1 class="intro-tagline reveal" style="--d:.35s">We make the<br>internet like <em>YOU</em></h1>
+  <p class="intro-sub reveal" style="--d:.6s">Strategy, Design &amp; Stories, all in one place</p>
+
+  <a class="intro-enter reveal" style="--d:.85s" href="home.html"><span>Come on in</span></a>
+
+  <div class="intro-marquee">
+    <div class="track">
+      <span>Branding &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Content Shoot &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Social Media Management &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Performance and Growth Marketing &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Influencer Marketing &nbsp;&nbsp;·&nbsp;&nbsp; Creative Designing &nbsp;&nbsp;·&nbsp;&nbsp; Brand Experiences &amp; Activation &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;</span>
+      <span aria-hidden="true">Branding &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Content Shoot &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Social Media Management &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Performance and Growth Marketing &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; Influencer Marketing &nbsp;&nbsp;·&nbsp;&nbsp; Creative Designing &nbsp;&nbsp;·&nbsp;&nbsp; Brand Experiences &amp; Activation &nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+</div></main>
+
+<script>
+/* Stars — same generator as the original gate embed */
+const starsEl = document.getElementById('gate-stars');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2 + .5;
+  s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*4}s;`;
+  starsEl.appendChild(s);
+}
+window.addEventListener('load', () => document.body.classList.add('ready'));
+</script>
+</body>
+</html>
