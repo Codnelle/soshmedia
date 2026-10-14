@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>intro | Sosh Media</title>
 <link rel="icon" href="assets/img/logo.png">
-<script src="js/units.js?v=48"></script>
-<link rel="stylesheet" href="css/fonts.css?v=48">
-<link rel="stylesheet" href="css/intro.css?v=48">
+<script src="js/units.js?v=51"></script>
+<link rel="stylesheet" href="css/fonts.css?v=51">
+<link rel="stylesheet" href="css/intro.css?v=51">
 </head>
 <body>
 
@@ -51,6 +51,20 @@ for (let i = 0; i < 80; i++) {
   starsEl.appendChild(s);
 }
 window.addEventListener('load', () => document.body.classList.add('ready'));
+
+/* "Come on in": let the pink fill finish, then fade out and go to the landing page */
+const enter = document.querySelector('.intro-enter');
+enter.addEventListener('click', (e) => {
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;   /* new-tab clicks behave normally */
+  e.preventDefault();
+  if (enter.classList.contains('go')) return;
+  const quick = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  enter.classList.add('go');
+  setTimeout(() => document.body.classList.add('leaving'), quick ? 0 : 900);
+  setTimeout(() => { location.href = enter.href; }, quick ? 150 : 1350);
+});
+/* coming back with the browser's back button: show the intro again, not the faded state */
+window.addEventListener('pageshow', () => { enter.classList.remove('go'); document.body.classList.remove('leaving'); });
 </script>
 </body>
 </html>

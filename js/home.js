@@ -31,10 +31,18 @@
     else if (y < lastY - 4 || y <= header.offsetHeight) header.classList.remove('hide');
     lastY = y;
   }
-  /* ───────── SMOOTH SCROLL (Lenis) — eases wheel/trackpad; touch keeps native momentum ───────── */
+  /* ───────── SMOOTH SCROLL (Lenis) — eases mouse wheel, trackpad and touch on every device ───────── */
   var lenis = null;
   if (w.Lenis && !w.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    lenis = new w.Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
+    lenis = new w.Lenis({
+      lerp: 0.075,                 /* lower = heavier, silkier glide */
+      wheelMultiplier: 0.9,
+      smoothWheel: true,
+      syncTouch: true,             /* same glide on phones and iPads */
+      syncTouchLerp: 0.085,
+      touchInertiaMultiplier: 28,
+      touchMultiplier: 1
+    });
     (function raf(time) { lenis.raf(time); requestAnimationFrame(raf); })(performance.now());
   }
   d.querySelectorAll('a[href^="#"]').forEach(function (a) {
@@ -239,7 +247,7 @@
   function unlock() {
     wantPlay.forEach(function (v) { if (v._want && v.paused) tryPlay(v); });
   }
-  ['touchend', 'click', 'keydown'].forEach(function (ev) { d.addEventListener(ev, unlock, { passive: true }); });
+  ['touchstart', 'touchend', 'pointerup', 'click', 'keydown'].forEach(function (ev) { d.addEventListener(ev, unlock, { passive: true }); });
 
   (function alphaVideo() {
     var box = d.querySelector('.stop-video');

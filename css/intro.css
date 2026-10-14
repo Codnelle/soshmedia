@@ -56,6 +56,12 @@ body::before{
 .intro-enter:hover{border-color:var(--blush)}
 .intro-enter:hover::before{transform:scaleX(1)}
 .intro-enter:hover span{color:var(--pitch)}
+/* on click: play the full pink fill, hold, then fade the page out before going to home.html */
+.intro-enter.go{border-color:var(--blush)}
+.intro-enter.go::before{transform:scaleX(1);transition-duration:.7s}
+.intro-enter.go span{color:var(--pitch)}
+body{transition:opacity .45s ease}
+body.leaving{opacity:0}
 
 .intro-marquee{left:var(--off);right:var(--off);top:calc(716*var(--u));height:calc(26*var(--u));overflow:hidden;
   border-top:1px solid rgba(110,110,110,.4);border-bottom:1px solid rgba(110,110,110,.4);display:flex;align-items:center}
