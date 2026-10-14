@@ -218,10 +218,34 @@
   requestAnimationFrame(slide);
 
   /* ───────── "STOP" VIDEO WITH ALPHA (top half = colour, bottom half = mask) ───────── */
+  /* ───────── SAFARI-SAFE AUTOPLAY ─────────
+     Safari only autoplays video that is muted + inline, and Low Power Mode blocks autoplay
+     entirely. So: force those flags, retry once data arrives, and on the first tap/touch
+     start any on-screen video that was blocked. */
+  var wantPlay = [];
+  function prepVideo(v) {
+    v.muted = true; v.defaultMuted = true;
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    v.playsInline = true;
+    v.addEventListener('canplay', function () { if (v._want && v.paused) tryPlay(v); });
+  }
+  function tryPlay(v) {
+    v._want = true;
+    if (wantPlay.indexOf(v) < 0) wantPlay.push(v);
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+  function stopPlay(v) { v._want = false; v.pause(); }
+  function unlock() {
+    wantPlay.forEach(function (v) { if (v._want && v.paused) tryPlay(v); });
+  }
+  ['touchend', 'click', 'keydown'].forEach(function (ev) { d.addEventListener(ev, unlock, { passive: true }); });
+
   (function alphaVideo() {
     var box = d.querySelector('.stop-video');
     var video = box.querySelector('video');
     var canvas = box.querySelector('canvas');
+    prepVideo(video);
     var gl = canvas.getContext('webgl', { premultipliedAlpha: false, alpha: true });
     if (!gl) return;
     var vs = 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2((p.x+1.)/2.,(1.-p.y)/2.);gl_Position=vec4(p,0.,1.);}';
@@ -263,7 +287,7 @@
     }
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting;
-      if (visible) video.play().catch(function () {}); else video.pause();
+      if (visible) tryPlay(video); else stopPlay(video);
     }, { rootMargin: '200px' }).observe(box);
     size(); w.addEventListener('resize', size); w.addEventListener('unitschange', size);
     requestAnimationFrame(draw);
@@ -271,9 +295,9 @@
 
   /* ───────── BACKGROUND / PHONE VIDEOS: play only while on screen ───────── */
   d.querySelectorAll('.hero-video, .phone video').forEach(function (v) {
-    v.muted = true;            /* browsers only autoplay muted video; the speaker button unmutes */
+    prepVideo(v);              /* starts muted; the speaker button on the reels unmutes */
     new IntersectionObserver(function (es) {
-      if (es[0].isIntersecting) v.play().catch(function () {}); else v.pause();
+      if (es[0].isIntersecting) tryPlay(v); else stopPlay(v);
     }, { rootMargin: '150px' }).observe(v);
   });
 
