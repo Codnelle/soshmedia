@@ -291,7 +291,8 @@ html.menu-open,html.menu-open body{overflow:hidden}
 
 /* ───────── PAPER PLANE ───────── */
 #spp-obj{position:fixed;left:0;top:0;z-index:999999;pointer-events:none;transform-origin:50% 50%;will-change:transform,opacity}
-#spp-obj img{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 10px rgba(0,0,0,.25))}
+/* shadow is baked into the PNG: a CSS drop-shadow on a rotating layer shows a square box in Safari */
+#spp-obj img{width:100%;height:100%;display:block}
 
 /* ───────── LOOPING MOTION (Wix presets) ───────── */
 @keyframes marquee{to{transform:translateX(-50%)}}

@@ -34,7 +34,8 @@
   }
 
   function resize() {
-    var width = w.innerWidth <= 767 ? 30 : Math.max(44, Math.min(68, w.innerWidth * .042));
+    /* the PNG has a transparent margin for its soft shadow (256px "o" in a 336px image), so scale up to keep the "o" the same visible size */
+    var width = (w.innerWidth <= 767 ? 30 : Math.max(44, Math.min(68, w.innerWidth * .042))) * 336 / 256;
     plane.style.width = width + 'px';
     plane.style.height = width + 'px';
   }
@@ -59,7 +60,7 @@
     /* roll like a wheel: spin by the distance travelled, direction follows horizontal motion */
     var dx = x - lastX, dy = y - lastY;
     var dist = Math.sqrt(dx * dx + dy * dy);
-    rotation += (dx >= 0 ? 1 : -1) * dist / (plane.offsetWidth / 2 || 1) * 180 / Math.PI;
+    rotation += (dx >= 0 ? 1 : -1) * dist / (plane.offsetWidth * 128 / 336 || 1) * 180 / Math.PI;
     lastX = x; lastY = y;
 
     var f = 1 - (progress - (HIDE_AT - FADE_LEN)) / FADE_LEN;
