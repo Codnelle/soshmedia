@@ -103,6 +103,13 @@
     var p = (w.scrollY + vh - top) / (vh + h);
     return clamp((p - a) / (b - a), 0, 1);
   }
+  /* 0 while `el`'s top is below `from` (fraction of window height from the top),
+     1 once it has risen to `to` — independent of how tall the window is */
+  function settle(el, from, to) {
+    var y = el.getBoundingClientRect().top / w.innerHeight;
+    return clamp((from - y) / (from - to), 0, 1);
+  }
+  var statsSection = d.querySelector('.stats');
   /* desktop: cards drift apart (original Wix keyframes).
      phone: cards fly in from the sides and settle into the 2×2 grid. */
   function stat(dx, dy, a, b, m) {
@@ -113,7 +120,9 @@
         el.style.opacity = .25 + .75 * e;
         return;
       }
-      var t = cover(el, a, b);
+      /* driven by where the stats section sits on screen (not by its height), so the cards are
+         fully spread before the section reaches the top — even on short laptop windows */
+      var t = easeInOutSine(settle(statsSection, .8, .25));
       el.style.opacity = '';
       el.style.transform = 'translate(' + vw(dx * t) + 'px,' + vw(dy * t) + 'px)';
     };
@@ -124,7 +133,7 @@
     statB: stat(38, 15, .40, .86, [60, -10, 9]),
     statC: stat(15, 26, .40, .90, [70, 22, 12]),
     statD: stat(3, 37, .39, .89, [-55, 30, -8]),
-    fadeIn: function (el) { el.style.opacity = cover(el, 0, .5); },
+    fadeIn: function (el) { el.style.opacity = settle(el, .95, .55); },
     fadeOut: function (el) { el.style.opacity = 1 - cover(el, .23, 1); },
     servicesBg: function (el) { el.style.opacity = easeInSine(cover(services, 0, 1)); },
     servicesFade: function (el) { el.style.opacity = 1 - cover(services, .23, 1); },
@@ -236,12 +245,31 @@
     v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
     v.playsInline = true;
     v.addEventListener('canplay', function () { if (v._want && v.paused) tryPlay(v); });
+    v.addEventListener('playing', function () { hidePoster(v); });
+  }
+  /* When iOS refuses to start a video (Low Power Mode), it draws its own play button on it,
+     and CSS can't hide that on every iOS version. So hide the video and show its poster
+     image in the same spot until a touch lets it play. */
+  function showPoster(v) {
+    if (!v.poster) return;
+    if (!v._posterEl) {
+      var img = new Image();
+      img.src = v.poster; img.alt = ''; img.setAttribute('aria-hidden', 'true');
+      img.className = (v.className ? v.className + ' ' : '') + 'video-poster';
+      v.parentNode.insertBefore(img, v);
+      v._posterEl = img;
+    }
+    v.style.visibility = 'hidden';
+  }
+  function hidePoster(v) {
+    v.style.visibility = '';
+    if (v._posterEl) { v._posterEl.remove(); v._posterEl = null; }
   }
   function tryPlay(v) {
     v._want = true;
     if (wantPlay.indexOf(v) < 0) wantPlay.push(v);
     var p = v.play();
-    if (p && p.catch) p.catch(function () {});
+    if (p && p.then) p.then(function () { hidePoster(v); }, function () { if (v._want) showPoster(v); });
   }
   function stopPlay(v) { v._want = false; v.pause(); }
   function unlock() {
