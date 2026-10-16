@@ -49,7 +49,7 @@ em{font-style:italic}
 #header .burger{display:none}
 
 /* ───────── FULL-SCREEN MENU (phones / upright tablets) ───────── */
-.mmenu{display:none;position:fixed;inset:0;height:100vh;height:100dvh;z-index:1000000;background:var(--pitch);
+.mmenu{display:none;position:fixed;inset:0;height:100vh;height:100lvh;z-index:1000000;background:var(--pitch);
   opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s;overflow:hidden}
 .mmenu.open{opacity:1;visibility:visible;transition:opacity .45s ease}
 /* slow-moving brand gradient behind the menu */
@@ -233,7 +233,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
 .founder{height:calc(677*var(--u));background:var(--cream)}
 .founder-card{left:calc(110*var(--u));top:calc(76*var(--u));width:calc(471*var(--u));height:calc(570*var(--u));background:var(--forest);border-radius:calc(21.18*var(--u));overflow:hidden}
 .founder-card > *{position:absolute}
-.founder-img{left:calc(1*var(--u));top:calc(105*var(--u));width:calc(473*var(--u));height:calc(465*var(--u));object-fit:cover}
+.founder-img{left:calc(1*var(--u));top:calc(105*var(--u));width:calc(470*var(--u));height:calc(465*var(--u));object-fit:cover;object-position:50% 100%}
 .f-hey,.f-im,.f-name{font-family:var(--fr);font-weight:700;font-style:italic;text-transform:uppercase}
 .f-hey{left:calc(94*var(--u));top:calc(26*var(--u));font-size:calc(60.4*var(--u));line-height:calc(78.52*var(--u));color:var(--acid);opacity:.5}
 .f-im{left:calc(217*var(--u));top:calc(32*var(--u));font-size:calc(53.88*var(--u));line-height:calc(70.04*var(--u));color:var(--acid);opacity:.5}
@@ -394,16 +394,16 @@ html.menu-open,html.menu-open body{overflow:hidden}
   .stay-text{left:0;top:calc(616*var(--u));width:100%;font-size:calc(65*var(--u));line-height:calc(58.5*var(--u));letter-spacing:calc(-2.6*var(--u))}
 
   /* ARCHIVES */
-  .archives{height:calc(1134*var(--u))}
-  .phone{width:calc(180*var(--u));height:calc(385*var(--u))}
-  .phone:first-of-type{left:calc(113*var(--u))!important;top:calc(51*var(--u))!important}
-  .phone:last-of-type{left:calc(109*var(--u))!important;top:calc(684*var(--u))!important}
-  .phone video,.phone .video-poster{left:calc(7*var(--u));top:calc(17*var(--u));width:calc(166*var(--u));height:calc(349*var(--u));border-radius:calc(20*var(--u))}
-  .reel-sound{right:calc(17*var(--u));bottom:calc(30*var(--u));width:calc(34*var(--u));height:calc(34*var(--u))}
-  .arch-sosh{left:calc(12*var(--u));top:calc(470*var(--u));width:calc(222*var(--u));text-align:center;font-size:calc(79.39*var(--u));line-height:calc(71.45*var(--u))}
-  .arch-circle{left:calc(93.5*var(--u));top:calc(499*var(--u));width:calc(268*var(--u));height:calc(156*var(--u))}
-  .arch-archives{left:calc(99*var(--u));top:calc(546*var(--u));width:calc(281*var(--u));text-align:center;font-size:calc(65.57*var(--u));line-height:calc(59.02*var(--u))}
-  .arch-sub{left:calc(205*var(--u));top:calc(635*var(--u));width:calc(162*var(--u));font-size:calc(15.54*var(--u));line-height:calc(24.86*var(--u))}
+  .archives{height:calc(1240*var(--u))}
+  .phone{width:calc(207*var(--u));height:calc(443*var(--u))}
+  .phone:first-of-type{left:calc(91.5*var(--u))!important;top:calc(40*var(--u))!important}
+  .phone:last-of-type{left:calc(91.5*var(--u))!important;top:calc(765*var(--u))!important}
+  .phone video,.phone .video-poster{left:calc(8*var(--u));top:calc(19.5*var(--u));width:calc(191*var(--u));height:calc(401*var(--u));border-radius:calc(23*var(--u))}
+  .reel-sound{right:calc(20*var(--u));bottom:calc(34*var(--u));width:calc(34*var(--u));height:calc(34*var(--u))}
+  .arch-sosh{left:calc(12*var(--u));top:calc(510*var(--u));width:calc(222*var(--u));text-align:center;font-size:calc(79.39*var(--u));line-height:calc(71.45*var(--u))}
+  .arch-circle{left:calc(93.5*var(--u));top:calc(539*var(--u));width:calc(268*var(--u));height:calc(156*var(--u))}
+  .arch-archives{left:calc(99*var(--u));top:calc(586*var(--u));width:calc(281*var(--u));text-align:center;font-size:calc(65.57*var(--u));line-height:calc(59.02*var(--u))}
+  .arch-sub{left:calc(205*var(--u));top:calc(675*var(--u));width:calc(162*var(--u));font-size:calc(15.54*var(--u));line-height:calc(24.86*var(--u))}
 
   /* FOUNDER */
   .founder{height:calc(918*var(--u))}

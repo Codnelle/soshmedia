@@ -50,7 +50,14 @@
       var target = d.querySelector(a.getAttribute('href'));
       if (!target) return;
       e.preventDefault();
-      if (lenis) lenis.scrollTo(target, { duration: 1.4, force: true }); else target.scrollIntoView({ behavior: 'smooth' });
+      /* from the full-screen menu: close it first, then scroll — restarting smooth scroll
+         while a scroll is running would cancel it */
+      var fromMenu = menu && menu.classList.contains('open');
+      if (fromMenu) setMenu(false);
+      var go = function () {
+        if (lenis) lenis.scrollTo(target, { duration: 1.4, force: true }); else target.scrollIntoView({ behavior: 'smooth' });
+      };
+      if (fromMenu) requestAnimationFrame(function () { requestAnimationFrame(go); }); else go();
       history.replaceState(null, '', a.getAttribute('href'));
     });
   });
@@ -112,27 +119,32 @@
   var statsSection = d.querySelector('.stats');
   /* desktop: cards drift apart (original Wix keyframes).
      phone: cards fly in from the sides and settle into the 2×2 grid. */
-  function stat(dx, dy, a, b, m) {
+  function stat(fx, fy, m) {
     return function (el) {
-      if (d.documentElement.classList.contains('is-stacked')) {   /* phones + upright tablets: fly into the 2×2 grid */
-        var e = easeInOutSine(cover(el, 0, .42)), r = 1 - e;
-        el.style.transform = 'translate(' + vw(m[0] * r) + 'px,' + vw(m[1] * r) + 'px) rotate(' + (m[2] * r) + 'deg)';
+      if (d.documentElement.classList.contains('is-stacked')) {
+        /* phones + upright tablets: slide in sideways only (no tilt, no vertical offset) so every row
+           stays level, and finish while the card is still in the lower part of the screen */
+        var e = easeInOutSine(settle(el, 1.05, .7)), r = 1 - e;
+        el.style.transform = 'translate(' + vw(m[0] * r) + 'px,0)';
         el.style.opacity = .25 + .75 * e;
         return;
       }
       /* driven by where the stats section sits on screen (not by its height), so the cards are
          fully spread before the section reaches the top — even on short laptop windows */
       var t = easeInOutSine(settle(statsSection, .8, .25));
+      /* laptop: cards start in one row and settle into an aligned grid at (fx, fy) design units */
+      var u = d.documentElement.clientWidth / 1440;
       el.style.opacity = '';
-      el.style.transform = 'translate(' + vw(dx * t) + 'px,' + vw(dy * t) + 'px)';
+      el.style.transform = 'translate(' + ((fx * u - el.offsetLeft) * t) + 'px,' + ((fy * u - el.offsetTop) * t) + 'px)';
     };
   }
   var services = d.querySelector('.services');
   var effects = {
-    statA: stat(62, 26, .39, .89, [-70, 18, -14]),
-    statB: stat(38, 15, .40, .86, [60, -10, 9]),
-    statC: stat(15, 26, .40, .90, [70, 22, 12]),
-    statD: stat(3, 37, .39, .89, [-55, 30, -8]),
+    /* laptop grid: 10K+ on top, 5+ and 50K+ side by side, 100% below — one 318u-wide column */
+    statA: stat(930, 422, [-70, 18]),
+    statB: stat(930, 263, [60, -10]),
+    statC: stat(1100, 422, [70, 22]),
+    statD: stat(930, 581, [-55, 30]),
     fadeIn: function (el) { el.style.opacity = settle(el, .95, .55); },
     fadeOut: function (el) { el.style.opacity = 1 - cover(el, .23, 1); },
     servicesBg: function (el) { el.style.opacity = easeInSine(cover(services, 0, 1)); },
