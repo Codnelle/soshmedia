@@ -333,13 +333,14 @@ html.menu-open,html.menu-open body{overflow:hidden}
   .stat{height:calc(119*var(--u));border-radius:calc(5.73*var(--u))}
   .stat .num{font-size:calc(46*var(--u));line-height:1.08}
   .stat .lbl{font-size:calc(14*var(--u));line-height:calc(18.2*var(--u));margin-top:calc(2*var(--u))!important}
+  /* exact grid: one 271u column, 12u gaps between every card */
   .stat-b{left:calc(67*var(--u));top:calc(13*var(--u));width:calc(271*var(--u))}
   .stat-b .num{font-size:calc(47.97*var(--u));line-height:1.08}
-  .stat-a{left:calc(68*var(--u));top:calc(140*var(--u));width:calc(128*var(--u))}
+  .stat-a{left:calc(67*var(--u));top:calc(144*var(--u));width:calc(129.5*var(--u))}
   .stat-a .lbl{padding:0 calc(21*var(--u))}
-  .stat-c{left:calc(210*var(--u));top:calc(140*var(--u));width:calc(128*var(--u))}
+  .stat-c{left:calc(208.5*var(--u));top:calc(144*var(--u));width:calc(129.5*var(--u))}
   .stat-c .lbl{padding:0 calc(31*var(--u))}
-  .stat-d{left:calc(67*var(--u));top:calc(268*var(--u));width:calc(271*var(--u))}
+  .stat-d{left:calc(67*var(--u));top:calc(275*var(--u));width:calc(271*var(--u))}
   .stats-copy{left:calc(28*var(--u));top:calc(462*var(--u));width:calc(337*var(--u));text-align:center;font-size:calc(29.06*var(--u));line-height:calc(31.97*var(--u))}
   .stats-stamp{margin-left:0;margin-top:calc(20*var(--u));padding:calc(18*var(--u)) calc(34*var(--u));font-size:calc(26*var(--u))}
 
