@@ -373,7 +373,9 @@
     w.addEventListener('unitschange', refit);
     function play() { if (!timer && visible) timer = setInterval(next, STEP); }
     function stop() { clearInterval(timer); timer = 0; }
-    if (w.matchMedia('(prefers-reduced-motion: reduce)').matches) return;   /* calm: keep the first card */
+    /* Windows with "Animation effects" off reports reduced motion. Still show the work, just calmer:
+       cards swap without the pop animation, at a slower pace (stopping here left a single frozen card) */
+    if (w.matchMedia('(prefers-reduced-motion: reduce)').matches) { box.classList.add('calm'); STEP = 900; }
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting;
       if (visible) play(); else stop();

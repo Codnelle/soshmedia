@@ -622,8 +622,10 @@ html.menu-open,html.menu-open body{overflow:hidden}
 .stop{height:auto!important;display:flex;flex-direction:column;align-items:center;padding:calc(240*var(--u)) 0 calc(260*var(--u))}
 .stop > *{position:relative!important;left:auto!important;top:auto!important}
 .stop > .arc{position:absolute!important}
-.stop > .arc-top{top:0!important}
-.stop > .arc-bottom{bottom:0!important}
+/* overlap the neighbouring cream sections by 2px: on fractional-pixel layouts a 1px sliver of the
+   green showed under the curve as a thin line across the page */
+.stop > .arc-top{top:-2px!important}
+.stop > .arc-bottom{bottom:-2px!important}
 .stop .stop-text,.stop .stay-text{width:100%!important}
 /* negative top margin: the polaroid lightly overlaps the bottom of STOP, like the original */
 .stop .stop-text{z-index:1}
@@ -688,3 +690,4 @@ video::-webkit-media-controls,video::-webkit-media-controls-panel,video::-webkit
   transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(var(--s,1));
   transition:transform .26s cubic-bezier(.2,.9,.25,1.15),opacity .06s linear;will-change:transform}
 .deck-card.enter{--s:1.12;opacity:0;transition:none}
+.work-deck.calm .deck-card{transition:none}
