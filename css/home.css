@@ -136,14 +136,18 @@ html.menu-open,html.menu-open body{overflow:hidden}
 .stats-stamp path + path{opacity:.6}
 
 /* ───────── SERVICES ───────── */
-.services{height:calc(2025*var(--u) + 1.5 * 100vh);overflow:visible;z-index:1}
+.services{height:calc(2025*var(--u) + 1.5 * 100vh);overflow:visible;z-index:1;background:var(--forest)}
 .services-bg{inset:0;background:var(--forest);opacity:0}
-.services-wave{left:0;top:0;width:100%;height:calc(20*var(--u));z-index:2;
+/* hidden: stats above is the same green, so the wave was invisible except as a band drawn over the
+   rising "What best we do" heading */
+.services-wave{display:none;left:0;top:0;width:100%;height:calc(20*var(--u));z-index:2;
   background:url("data:image/svg+xml,%3Csvg preserveAspectRatio='none' viewBox='0 125.7 1920 173.8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23153226' d='M1920 287.7c-480 0-480-162-960-162s-480 162-960 162v11.8h1920v-11.8z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
-.services-pin{position:sticky!important;top:0;left:0;width:100%;height:100vh;height:100dvh;background:var(--forest);overflow:visible}
+/* transparent: the section behind is the same green. A painted pin showed its top edge as a thin line
+   across the heading while the heading slid up past it */
+.services-pin{position:sticky!important;top:0;left:0;width:100%;height:100vh;height:100dvh;background:transparent;overflow:visible}
 /* the pin always fills the screen; its content stays centred inside it */
 /* "What best we do" (with "services" behind it) is always dead-centre of the screen */
-.services-center{position:absolute;inset:0;display:grid;place-items:center;will-change:transform}
+.services-center{position:absolute;inset:0;display:grid;place-items:center}
 .services-center > *{grid-area:1/1;position:relative!important;left:auto!important;top:auto!important;width:auto!important;height:auto!important;margin:0!important}
 .services-word{left:calc(90*var(--u));top:calc(162*var(--u));width:calc(1259*var(--u));height:calc(605*var(--u));font-family:var(--fr);font-style:italic;font-size:calc(465.72*var(--u));line-height:calc(605.44*var(--u));color:var(--moss);opacity:.1;white-space:nowrap;animation:breathe 5s linear infinite;display:none}
 .services-what{left:calc(487*var(--u));top:calc(284*var(--u));width:calc(509*var(--u));font-family:var(--fr);font-size:calc(181.17*var(--u));line-height:calc(181.17*var(--u));color:#fff;text-align:center}
@@ -233,7 +237,12 @@ html.menu-open,html.menu-open body{overflow:hidden}
 .founder{height:calc(677*var(--u));background:var(--cream)}
 .founder-card{left:calc(110*var(--u));top:calc(76*var(--u));width:calc(471*var(--u));height:calc(570*var(--u));background:var(--forest);border-radius:calc(21.18*var(--u));overflow:hidden}
 .founder-card > *{position:absolute}
-.founder-img{left:calc(1*var(--u));top:calc(105*var(--u));width:calc(470*var(--u));height:calc(465*var(--u));object-fit:cover;object-position:50% 100%}
+/* founder.png is cut straight through the table (left) and her elbow (right): scale it so both cuts sit on the
+   card's edges, so she fills the card; her head rises into the title and sits in front of "RUCHITA". */
+.founder-img{left:calc(-111*var(--u));top:calc(-2*var(--u));width:calc(712*var(--u));height:calc(712*var(--u));object-fit:contain;z-index:2}
+.founder-card .f-name{z-index:1}
+.founder-card .f-hey,.founder-card .f-im{z-index:3}
+.founder-pill{z-index:5}   /* stays in front of the full-card photo */
 .f-hey,.f-im,.f-name{font-family:var(--fr);font-weight:700;font-style:italic;text-transform:uppercase}
 .f-hey{left:calc(94*var(--u));top:calc(26*var(--u));font-size:calc(60.4*var(--u));line-height:calc(78.52*var(--u));color:var(--acid);opacity:.5}
 .f-im{left:calc(217*var(--u));top:calc(32*var(--u));font-size:calc(53.88*var(--u));line-height:calc(70.04*var(--u));color:var(--acid);opacity:.5}
@@ -410,7 +419,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
   .founder{height:calc(918*var(--u))}
   .founder-title{left:calc(10*var(--u));top:calc(29*var(--u));width:calc(365*var(--u));text-align:center;font-size:calc(54.81*var(--u));line-height:calc(49.33*var(--u))}
   .founder-card{left:calc(27*var(--u));top:calc(167*var(--u));width:calc(336*var(--u));height:calc(390*var(--u));border-radius:calc(5.74*var(--u))}
-  .founder-img{left:calc(-1*var(--u));top:calc(88*var(--u));width:calc(344*var(--u));height:calc(302*var(--u))}
+  .founder-img{left:calc(-79*var(--u));top:0;width:calc(508*var(--u));height:calc(508*var(--u))}
   .f-hey{left:calc(81*var(--u));top:calc(6*var(--u));font-size:calc(40.15*var(--u));line-height:calc(52.2*var(--u))}
   .f-im{left:calc(180*var(--u));top:calc(6*var(--u));font-size:calc(40.36*var(--u));line-height:calc(52.46*var(--u))}
   .f-name{left:calc(1*var(--u));top:calc(44*var(--u));width:calc(331*var(--u));font-size:calc(61.85*var(--u));line-height:calc(80.41*var(--u))}
@@ -471,15 +480,17 @@ html.menu-open,html.menu-open body{overflow:hidden}
   .mmenu-tag{left:calc(60*var(--u));top:calc(720*var(--u));width:calc(420*var(--u));font-size:calc(66*var(--u));line-height:calc(86*var(--u))}
 
   /* HERO */
-  .hero{height:calc(1298*var(--u));min-height:100svh}
-  .hero-title{left:calc(36*var(--u));top:calc(243*var(--u));width:calc(747*var(--u));font-size:calc(132.06*var(--u));line-height:calc(132.06*var(--u))}
-  .hero-strike{left:calc(316*var(--u));top:calc(279*var(--u));width:calc(370*var(--u));height:calc(69*var(--u))}
-  .hero-thinks{left:calc(384*var(--u));top:calc(162*var(--u));width:calc(292*var(--u));height:calc(132*var(--u));font-size:calc(101.64*var(--u));line-height:calc(132.13*var(--u))}
-  .hero-copy{left:calc(141*var(--u));top:calc(573*var(--u));width:calc(518*var(--u));padding:0;font-size:calc(19.2*var(--u));line-height:calc(28.8*var(--u))}
-  .hero-btn{left:calc(306*var(--u));top:calc(704*var(--u));width:calc(177*var(--u));height:calc(48*var(--u));font-size:calc(14*var(--u))}
+  /* hero fills exactly one screen and its content block (thinks → button, 162u–752u) is centred in the
+     space under the header, instead of sitting high with a big empty gap below */
+  .hero{height:100svh;min-height:calc(900*var(--u));--hs:max(0px,calc(50svh - 412*var(--u)))}
+  .hero-title{left:calc(36*var(--u));top:calc(243*var(--u) + var(--hs));width:calc(747*var(--u));font-size:calc(132.06*var(--u));line-height:calc(132.06*var(--u))}
+  .hero-strike{left:calc(316*var(--u));top:calc(279*var(--u) + var(--hs));width:calc(370*var(--u));height:calc(69*var(--u))}
+  .hero-thinks{left:calc(384*var(--u));top:calc(162*var(--u) + var(--hs));width:calc(292*var(--u));height:calc(132*var(--u));font-size:calc(101.64*var(--u));line-height:calc(132.13*var(--u))}
+  .hero-copy{left:calc(120*var(--u));top:calc(573*var(--u) + var(--hs));width:calc(580*var(--u));padding:0;font-size:calc(22*var(--u));line-height:calc(33*var(--u))}
+  .hero-btn{left:calc(305*var(--u));top:calc(712*var(--u) + var(--hs));width:calc(210*var(--u));height:calc(56*var(--u));font-size:calc(16*var(--u))}
 
   /* STATS — small row of four, drifting apart like desktop */
-  .stats{height:calc(1200*var(--u))}
+  .stats{height:calc(1340*var(--u))}   /* extra room between the badge and "What best we do" */
   .stat{height:calc(150*var(--u));border-radius:calc(18*var(--u))}
   .stat .num{font-size:calc(64*var(--u));line-height:1.08}
   .stat .lbl{font-size:calc(20*var(--u));line-height:calc(26*var(--u));margin-top:calc(3*var(--u))!important;padding:0 calc(20*var(--u))!important}
@@ -549,7 +560,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
   /* FOUNDER */
   .founder{height:calc(393*var(--u))}
   .founder-card{left:calc(61*var(--u));top:calc(8*var(--u));width:calc(303*var(--u));height:calc(366*var(--u));border-radius:calc(12.06*var(--u))}
-  .founder-img{left:calc(1*var(--u));top:calc(67*var(--u));width:calc(303*var(--u));height:calc(298*var(--u))}
+  .founder-img{left:calc(-72*var(--u));top:calc(3*var(--u));width:calc(458*var(--u));height:calc(458*var(--u))}   /* card is scaled 1.35× on iPad; these are its unscaled units */
   .f-hey{left:calc(53*var(--u));top:calc(15*var(--u));font-size:calc(34.4*var(--u));line-height:calc(44.72*var(--u))}
   .f-im{left:calc(158*var(--u));top:calc(18*var(--u));font-size:calc(30.68*var(--u));line-height:calc(39.88*var(--u))}
   .f-name{left:calc(19*var(--u));top:calc(41*var(--u));width:calc(264*var(--u));font-size:calc(55.26*var(--u));line-height:calc(71.84*var(--u))}

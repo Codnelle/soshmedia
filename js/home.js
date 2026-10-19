@@ -22,14 +22,21 @@
 
   /* ───────── HEADER: solid once scrolled, hides on scroll down, returns on scroll up ───────── */
   var header = d.getElementById('header');
-  var lastY = w.scrollY;
+  var lastY = w.scrollY, run = 0;          /* run: distance scrolled in the current direction */
+  var navJump = 0;                         /* timestamp until which a nav-link scroll is in progress */
   function onHeader() {
-    var y = w.scrollY;
-    header.classList.toggle('solid', y > 10);
-    if (header.classList.contains('open')) { lastY = y; return; }
-    if (y > lastY + 4 && y > header.offsetHeight) header.classList.add('hide');
-    else if (y < lastY - 4 || y <= header.offsetHeight) header.classList.remove('hide');
+    var y = w.scrollY, dy = y - lastY;
     lastY = y;
+    header.classList.toggle('solid', y > 10);
+    if (header.classList.contains('open')) return;
+    /* while jumping to a section from the nav, keep the header in view */
+    if (performance.now() < navJump || y < 120) { header.classList.remove('hide'); run = 0; return; }
+    if (!dy) return;
+    /* count distance per direction, so the tiny steps of smooth scrolling (and iOS bounce)
+       don't flick the header in and out */
+    run = (dy > 0) === (run > 0) ? run + dy : dy;
+    if (run > 80) header.classList.add('hide');
+    else if (run < -40) header.classList.remove('hide');
   }
   /* ───────── SMOOTH SCROLL (Lenis) — eases mouse wheel, trackpad and touch on every device ───────── */
   var lenis = null;
@@ -52,6 +59,9 @@
       e.preventDefault();
       /* from the full-screen menu: close it first, then scroll — restarting smooth scroll
          while a scroll is running would cancel it */
+      navJump = performance.now() + 1700;              /* header stays put and underline jumps straight there */
+      header.classList.remove('hide');
+      if (typeof setActive === 'function') setActive(a.getAttribute('href'));
       var fromMenu = menu && menu.classList.contains('open');
       if (fromMenu) setMenu(false);
       var go = function () {
@@ -86,15 +96,19 @@
 
   /* ───────── NAV: underline the link of the section you're in ───────── */
   var navLinks = [].slice.call(d.querySelectorAll('#header .nav a'));
+  function setActive(href) {
+    navLinks.forEach(function (a) { a.classList.toggle('active', !!href && a.getAttribute('href') === href); });
+  }
   function markActive() {
+    if (performance.now() < navJump) return;          /* don't sweep the underline across links mid-jump */
+    /* the last linked section whose top has passed 40% of the screen stays active through the
+       unlinked sections after it, so the underline never blinks off between sections */
     var mid = w.innerHeight * .4, current = null;
     navLinks.forEach(function (a) {
       var sec = d.querySelector(a.getAttribute('href'));
-      if (!sec) return;
-      var r = sec.getBoundingClientRect();
-      if (r.top <= mid && r.bottom > mid) current = a;
+      if (sec && sec.getBoundingClientRect().top <= mid) current = a.getAttribute('href');
     });
-    navLinks.forEach(function (a) { a.classList.toggle('active', a === current); });
+    setActive(current);
   }
 
   /* ───────── SCROLL-SCRUBBED EFFECTS (Wix "view progress" / cover ranges) ───────── */
@@ -175,11 +189,18 @@
     /* never ride up into the stats copy/badge above (phones have little room between them) */
     if (statsCopy && servicesWhat && lift > 0) {
       var cur = servicesCenter._lift || 0;
-      var room = (servicesWhat.getBoundingClientRect().top + cur) - (statsCopy.getBoundingClientRect().bottom + 0.06 * vh);
+      var room = (servicesWhat.getBoundingClientRect().top + cur) - (statsCopy.getBoundingClientRect().bottom + 0.12 * vh);
       lift = Math.max(0, Math.min(lift, room));
     }
+    /* never let the heading rise past the top edge of its pinned panel: Safari draws the part above
+       that edge as a separate layer, which showed as a green band cutting through "What" */
+    if (servicesWhat && lift > 0) {
+      var cur2 = servicesCenter._lift || 0;
+      var edgeRoom = (servicesWhat.getBoundingClientRect().top + cur2) - servicesPin.getBoundingClientRect().top - 2;
+      lift = Math.max(0, Math.min(lift, edgeRoom));
+    }
     servicesCenter._lift = lift;
-    servicesCenter.style.transform = 'translate3d(0,' + (-lift).toFixed(1) + 'px,0)';
+    servicesCenter.style.transform = 'translate3d(0,' + (-Math.round(lift)) + 'px,0)';   /* whole pixels: no half-pixel seams */
   }
   function runScrubs() {
     servicesEnter();
