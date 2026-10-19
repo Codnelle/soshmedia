@@ -251,15 +251,24 @@
     else target = Math.max.apply(null, cands.filter(function (o) { return o < x0 - T; }));
     anim = { from: pos, to: base - (target - x0), start: performance.now() };
   }
-  d.querySelector('.arrow.prev').addEventListener('click', function () { step(-1); });
-  d.querySelector('.arrow.next').addEventListener('click', function () { step(1); });
+  /* Hold the row still until the clients section actually comes into view, then start from
+     Bellavita + Kathaa (reset again each time it comes back into view), pause a beat, and drift.
+     Before, it drifted from page load, so the first logos had moved on by the time you got there. */
+  var inView = false, holdUntil = 0;
+  new IntersectionObserver(function (es) {
+    var vis = es[0].isIntersecting;
+    if (vis && !inView && setW && !anim) { pos = anchor(); holdUntil = performance.now() + 1200; }
+    inView = vis;
+  }, { threshold: 0.25 }).observe(track.parentNode);
+  d.querySelector('.arrow.prev').addEventListener('click', function () { holdUntil = 0; step(-1); });
+  d.querySelector('.arrow.next').addEventListener('click', function () { holdUntil = 0; step(1); });
   function slide(now) {
     var dt = Math.min(64, now - lastT); lastT = now;
     if (anim) {
       var t = Math.min(1, (now - anim.start) / 450), e = 1 - Math.pow(1 - t, 3);
       pos = anim.from + (anim.to - anim.from) * e;
       if (t >= 1) anim = null;
-    } else {
+    } else if (inView && now > holdUntil) {
       pos += dt * 0.045 * (w.innerWidth / 1440);   /* gentle drift to the right */
     }
     if (setW) track.style.transform = 'translateX(' + (((pos % setW) + setW) % setW - setW) + 'px)';
@@ -379,6 +388,22 @@
       if (es[0].isIntersecting) tryPlay(v); else stopPlay(v);
     }, { rootMargin: '150px' }).observe(v);
   });
+
+  /* ───────── WARM-UP: once the first screen has loaded, fetch everything further down in the
+     background (reels, posters, statics), so nothing is still loading when you scroll to it ───────── */
+  function warmUp() {
+    d.querySelectorAll('video').forEach(function (v) {
+      v.preload = 'auto';
+      if (v.readyState < 2) v.load();                    /* start buffering now, not when it scrolls in */
+    });
+    d.querySelectorAll('img').forEach(function (im) {
+      if (im.loading === 'lazy') im.loading = 'eager';
+    });
+    ['phone1-poster.jpg', 'phone2-poster.jpg', 'founder.png', 'circle-scribble.png', 'iphone-frame.png']
+      .forEach(function (f) { var im = new Image(); im.src = 'assets/img/' + f; });
+  }
+  if (d.readyState === 'complete') setTimeout(warmUp, 300);
+  else w.addEventListener('load', function () { setTimeout(warmUp, 300); });
 
   /* ───────── REEL SOUND: tap the speaker to unmute; only one reel plays sound at a time ───────── */
   var soundBtns = d.querySelectorAll('.reel-sound');

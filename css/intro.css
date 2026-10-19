@@ -7,7 +7,7 @@
   --acid:#DDE85C;
   --grey:#6E6E6E;
 }
-html,body{height:100%;overflow:hidden;background:#fff}
+html,body{height:100%;overflow:hidden;background:var(--pitch)}
 body{color:var(--cream);font-family:"JetBrains Mono",monospace;-webkit-font-smoothing:antialiased}
 
 /* grain */
@@ -17,8 +17,10 @@ body::before{
 }
 
 /* ── GATE (dark starfield) ── */
-#gate{position:fixed;inset:0;background:var(--pitch);overflow:hidden;opacity:0;transition:opacity 1.2s ease 1.4s}
-.ready #gate{opacity:1}
+/* green from the first paint; only the stars/pulses fade in */
+#gate{position:fixed;inset:0;background:var(--pitch);overflow:hidden}
+#gate > *{opacity:0;transition:opacity 1.2s ease 1.4s}
+.ready #gate > *{opacity:1}
 #gate-stars{position:absolute;inset:0}
 .star{position:absolute;background:var(--cream);border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
 @keyframes twinkle{0%,100%{opacity:.1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}

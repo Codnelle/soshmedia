@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#052416">
+<!-- painted before any file downloads, so slow connections never flash white -->
+<style>html{background:#052416}body{background:#153226;margin:0}</style>
 <title>home | Sosh Media</title>
 <link rel="icon" href="assets/img/logo.png">
-<script src="js/units.js?v=80"></script>
-<link rel="stylesheet" href="css/fonts.css?v=80">
-<link rel="stylesheet" href="css/home.css?v=80">
+<script src="js/units.js?v=83"></script>
+<link rel="preload" as="image" href="assets/img/hero-poster.jpg">
+<link rel="preload" as="image" href="assets/img/work/anuv.jpg">
+<link rel="stylesheet" href="css/fonts.css?v=83">
+<link rel="stylesheet" href="css/home.css?v=83">
 </head>
 <body>
 
@@ -41,7 +46,7 @@
 
 <!-- ═════════ HERO ═════════ -->
 <section class="hero" id="top">
-  <video class="hero-video" src="assets/video/hero.mp4" poster="assets/img/hero-poster.jpg" autoplay muted loop playsinline></video>
+  <video class="hero-video" src="assets/video/hero.mp4" poster="assets/img/hero-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
 
   <h1 class="hero-title">
     <span class="l1">All <span class="pink">Things</span> </span>
@@ -173,7 +178,7 @@
 <!-- ═════════ ARCHIVES ═════════ -->
 <section class="archives">
   <div class="phone" style="left:calc(114*var(--u));top:calc(150*var(--u))">
-    <video src="assets/video/phone1.mp4" poster="assets/img/phone1-poster.jpg" autoplay muted loop playsinline></video>
+    <video src="assets/video/phone1.mp4" poster="assets/img/phone1-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
     <img src="assets/img/iphone-frame.png" alt="">
     <button class="reel-sound" type="button" aria-label="Turn sound on" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9h4l5-4v14l-5-4H4z"/><path class="off" d="M16.5 9.5l5 5M21.5 9.5l-5 5"/><path class="on" d="M16 8.5a5 5 0 0 1 0 7M18.6 6a8.5 8.5 0 0 1 0 12"/></svg></button>
   </div>
@@ -182,7 +187,7 @@
   <div class="arch-archives">Archives</div>
   <p class="arch-sub">A collection of ideas brought to life</p>
   <div class="phone" style="left:calc(1035*var(--u));top:calc(150*var(--u))">
-    <video src="assets/video/phone2.mp4" poster="assets/img/phone2-poster.jpg" autoplay muted loop playsinline></video>
+    <video src="assets/video/phone2.mp4" poster="assets/img/phone2-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
     <img src="assets/img/iphone-frame.png" alt="">
     <button class="reel-sound" type="button" aria-label="Turn sound on" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9h4l5-4v14l-5-4H4z"/><path class="off" d="M16.5 9.5l5 5M21.5 9.5l-5 5"/><path class="on" d="M16 8.5a5 5 0 0 1 0 7M18.6 6a8.5 8.5 0 0 1 0 12"/></svg></button>
   </div>
@@ -256,8 +261,8 @@
 </main>
 
 <script src="js/vendor/lenis.min.js"></script>
-<script src="js/plane.js?v=80"></script>
-<script src="js/home.js?v=80"></script>
-<script src="js/form.js?v=80"></script>
+<script src="js/plane.js?v=83"></script>
+<script src="js/home.js?v=83"></script>
+<script src="js/form.js?v=83"></script>
 </body>
 </html>
