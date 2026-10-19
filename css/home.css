@@ -530,9 +530,9 @@ html.menu-open,html.menu-open body{overflow:hidden}
   /* STOP / STAY */
   .stop{height:calc(1016*var(--u))}
   .arc{height:calc(110*var(--u))}
-  .stop-text{left:calc(19*var(--u));top:calc(98*var(--u));width:calc(783*var(--u));font-size:calc(106.77*var(--u));line-height:calc(96.09*var(--u));letter-spacing:calc(-4.27*var(--u))}
+  .stop-text{left:calc(19*var(--u));top:calc(98*var(--u));width:calc(783*var(--u));font-size:calc(106.77*var(--u));line-height:calc(106*var(--u));letter-spacing:calc(-4.27*var(--u))}
   .stop-video{left:calc(174*var(--u));top:calc(323*var(--u));width:calc(452*var(--u));height:calc(452*var(--u))}
-  .stay-text{left:calc(57*var(--u));top:calc(710*var(--u));width:calc(705*var(--u));font-size:calc(96.47*var(--u));line-height:calc(86.82*var(--u));letter-spacing:calc(-3.86*var(--u))}
+  .stay-text{left:calc(57*var(--u));top:calc(710*var(--u));width:calc(705*var(--u));font-size:calc(96.47*var(--u));line-height:calc(98*var(--u));letter-spacing:calc(-3.86*var(--u))}
 
   /* ARCHIVES */
   .archives{height:calc(660*var(--u))}   /* reels end at 566u; was 1085u, which left a big empty gap */
@@ -622,7 +622,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
   .stop .stop-video{width:calc(330*var(--u))!important;height:calc(330*var(--u))!important;margin:calc(-30*var(--u)) 0 calc(18*var(--u))}
 }
 @media (min-width:768px) and (max-width:1100px) and (orientation:portrait){
-  .stop{padding:calc(160*var(--u)) 0 calc(180*var(--u))}
+  .stop{padding:calc(160*var(--u)) 0 calc(130*var(--u))}
   .stop .stop-video{width:calc(480*var(--u))!important;height:calc(480*var(--u))!important;margin:calc(-48*var(--u)) 0 calc(28*var(--u))}
 }
 
@@ -668,3 +668,12 @@ html.menu-open,html.menu-open body{overflow:hidden}
 video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none}
 video::-webkit-media-controls,video::-webkit-media-controls-panel,video::-webkit-media-controls-overlay-play-button{display:none!important;-webkit-appearance:none}
 .video-poster{pointer-events:none}
+/* ───────── WORK DECK (replaces the STOP video): clean statics with a thin white border,
+   flipping onto a little stack like the original clip ───────── */
+.work-deck{overflow:visible}
+.deck-card{position:absolute;left:50%;top:52%;max-width:74%;max-height:80%;width:auto;height:auto;object-fit:cover;box-sizing:border-box;
+  border:max(4px,calc(7*var(--u))) solid #fff;border-radius:2px;background:#fff;
+  box-shadow:0 calc(10*var(--u)) calc(28*var(--u)) rgba(0,0,0,.35);
+  transform:translate(-50%,-50%) rotate(var(--r,0deg)) scale(var(--s,1));
+  transition:transform .26s cubic-bezier(.2,.9,.25,1.15),opacity .06s linear;will-change:transform}
+.deck-card.enter{--s:1.12;opacity:0;transition:none}

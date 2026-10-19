@@ -8,6 +8,7 @@
   plane.id = 'spp-obj';
   plane.innerHTML = '<img src="assets/img/logo-o.png" alt="" aria-hidden="true" draggable="false">';
   d.body.appendChild(plane);
+  var strip = d.querySelector('.logo-slider');
 
   var x = w.innerWidth * .14;
   var y = w.innerHeight * .22;
@@ -52,6 +53,15 @@
     var my = Math.min(70, w.innerHeight * .07);
     var targetX = mx + target.x * (w.innerWidth - mx * 2);
     var targetY = my + target.y * (w.innerHeight - my * 2);
+
+    /* keep clear of the client logo strip: if the path would cross it, ride just above or below it */
+    if (strip) {
+      var b = strip.getBoundingClientRect(), half = plane.offsetHeight / 2 + 12;
+      if (b.bottom > 0 && b.top < w.innerHeight && targetY > b.top - half && targetY < b.bottom + half) {
+        var above = b.top - half, below = b.bottom + half;
+        targetY = (targetY - above < below - targetY && above > my) || below > w.innerHeight - my ? above : below;
+      }
+    }
 
     var smoothing = 1 - Math.pow(.88, dt);
     x += (targetX - x) * smoothing;

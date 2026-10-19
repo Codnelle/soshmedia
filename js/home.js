@@ -289,56 +289,66 @@
   }
   ['touchstart', 'touchend', 'pointerup', 'click', 'keydown'].forEach(function (ev) { d.addEventListener(ev, unlock, { passive: true }); });
 
-  (function alphaVideo() {
-    var box = d.querySelector('.stop-video');
-    var video = box.querySelector('video');
-    var canvas = box.querySelector('canvas');
-    prepVideo(video);
-    var gl = canvas.getContext('webgl', { premultipliedAlpha: false, alpha: true });
-    if (!gl) return;
-    var vs = 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2((p.x+1.)/2.,(1.-p.y)/2.);gl_Position=vec4(p,0.,1.);}';
-    var fs = 'precision mediump float;varying vec2 uv;uniform sampler2D t;void main(){vec3 c=texture2D(t,vec2(uv.x,uv.y*.5)).rgb;float a=texture2D(t,vec2(uv.x,.5+uv.y*.5)).r;gl_FragColor=vec4(c,a);}';
-    function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
-    var prog = gl.createProgram();
-    gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs));
-    gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
-    gl.linkProgram(prog); gl.useProgram(prog);
-    var buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-    var loc = gl.getAttribLocation(prog, 'p');
-    gl.enableVertexAttribArray(loc);
-    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var tex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(function (k) { gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE); });
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-    var visible = false, ok = true;
-    function size() {
-      var r = box.getBoundingClientRect(), dpr = Math.min(2, w.devicePixelRatio || 1);
-      canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
-      gl.viewport(0, 0, canvas.width, canvas.height);
+  /* ───────── WORK DECK — the STOP section's statics flip onto a small stack, in the same
+     order and rhythm as the original clip. Only the top three cards are kept in the page. ───────── */
+  (function workDeck() {
+    var box = d.querySelector('.work-deck');
+    if (!box) return;
+    var list = ['anuv', 'bellavita', 'tenali', 'premier', 'rings', 'evaan-bracelet', 'evaan-earrings',
+                'anniversary', 'premier', 'artist', 'rings', 'sunglasses', 'prism'];
+    var tilts = [-7, 5, -3, 8, -5, 3, -8, 6, -4, 7, -6, 4, -2];
+    var STEP = 310, KEEP = 3, i = 0, timer = 0, visible = false;
+    var pics = {};
+    list.forEach(function (n) {                           /* preload once; cards are sized from these */
+      if (pics[n]) return;
+      var im = new Image(); im.src = 'assets/img/work/' + n + '.jpg'; pics[n] = im;
+    });
+    /* Every card gets an explicit size (fit inside 74% × 80% of the box, keeping its proportions),
+       so it is centred from its very first frame. Before, a card's size was unknown until its
+       image loaded, which briefly pushed it off-centre. */
+    function fit(card, pic) {
+      var bw = box.clientWidth * .74, bh = box.clientHeight * .80;
+      var r = pic.naturalWidth / pic.naturalHeight;
+      var cw = bw, ch = bw / r;
+      if (ch > bh) { ch = bh; cw = bh * r; }
+      card.style.width = Math.round(cw) + 'px';
+      card.style.height = Math.round(ch) + 'px';
     }
-    function draw() {
-      if (!ok) return;
-      if (visible && video.readyState >= 2) {
-        try {
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
-          gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
-          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-          box.classList.add('gl');
-        } catch (e) { ok = false; box.classList.remove('gl'); return; }   /* e.g. opened over file:// */
-      }
-      requestAnimationFrame(draw);
+    function ready(pic) { return pic.complete && pic.naturalWidth > 0; }
+    var first = box.querySelector('.deck-card');
+    first.style.setProperty('--r', tilts[0] + 'deg');
+    function sizeFirst() { if (ready(pics.anuv)) fit(first, pics.anuv); }
+    pics.anuv.addEventListener('load', sizeFirst); sizeFirst();
+    function next() {
+      var n = (i + 1) % list.length, pic = pics[list[n]];
+      if (!ready(pic)) return;                            /* not loaded yet: keep the current card a beat longer */
+      i = n;
+      var card = d.createElement('img');
+      card.className = 'deck-card enter';
+      card.alt = '';
+      card.src = pic.src;
+      card._pic = pic;
+      fit(card, pic);
+      card.style.setProperty('--r', tilts[i] + 'deg');
+      box.appendChild(card);
+      card.getBoundingClientRect();                       /* commit the start state, then animate in */
+      card.classList.remove('enter');
+      var cards = box.querySelectorAll('.deck-card');
+      for (var k = 0; k < cards.length - KEEP; k++) cards[k].remove();
     }
+    function refit() {
+      box.querySelectorAll('.deck-card').forEach(function (c) { var p = c._pic || pics.anuv; if (ready(p)) fit(c, p); });
+    }
+    w.addEventListener('resize', refit);
+    w.addEventListener('unitschange', refit);
+    function play() { if (!timer && visible) timer = setInterval(next, STEP); }
+    function stop() { clearInterval(timer); timer = 0; }
+    if (w.matchMedia('(prefers-reduced-motion: reduce)').matches) return;   /* calm: keep the first card */
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting;
-      if (visible) tryPlay(video); else stopPlay(video);
-    }, { rootMargin: '200px' }).observe(box);
-    size(); w.addEventListener('resize', size); w.addEventListener('unitschange', size);
-    requestAnimationFrame(draw);
+      if (visible) play(); else stop();
+    }, { rootMargin: '100px' }).observe(box);
+    d.addEventListener('visibilitychange', function () { if (d.hidden) stop(); else play(); });
   })();
 
   /* ───────── BACKGROUND / PHONE VIDEOS: play only while on screen ───────── */
@@ -376,7 +386,7 @@
   for (var f = 0; f < 81; f++) {
     var im = new Image();
     im.decoding = 'async';
-    im.src = 'assets/seq/' + (f < 10 ? '00' : '0') + f + '.jpg';
+    im.src = 'assets/seq/' + (f < 10 ? '00' : '0') + f + '.jpg?v=3';   /* v=2: white-backed frames (see #noteCanvas blend) */
     im.onload = function () { note.drawn = -1; kickNote(); };
     note.frames.push(im);
   }
@@ -420,7 +430,14 @@
     if (!a) return;
     blit(a, 1);
     if (b && b !== a) blit(b, t);
-    note.ctx.globalAlpha = 1;
+    /* frames are white-backed: multiplying by the page cream turns white into exactly the page colour,
+       so the animation has no visible box (done in the canvas, not CSS, to avoid a seam in Safari) */
+    var ctx = note.ctx;
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = '#FFFCE4';
+    ctx.fillRect(0, 0, note.canvas.width, note.canvas.height);
+    ctx.globalCompositeOperation = 'source-over';
     note.drawn = pos;
   }
   /* eases the shown frame toward the scroll position, so fast flicks and jumpy touch scrolling still play smoothly */
