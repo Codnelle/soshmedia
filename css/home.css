@@ -697,5 +697,8 @@ video::-webkit-media-controls,video::-webkit-media-controls-panel,video::-webkit
 /* "AND MAYBE STAY" sits a small gap below the image stack */
 .stop .stay-text{position:relative;z-index:1;margin-top:calc(-52*var(--u))}
 .stop .stop-video{z-index:2}
-@media (max-width:767px) and (orientation:portrait){ .stop .stay-text{margin-top:calc(-12*var(--u))} }
+@media (max-width:767px) and (orientation:portrait){ .stop .stay-text{margin-top:calc(-28*var(--u))} }
 @media (min-width:768px) and (max-width:1100px) and (orientation:portrait){ .stop .stay-text{margin-top:calc(-37*var(--u))} }
+/* flex marquee: the strip is shorter on smaller screens, so loop faster to keep a laptop-like pace */
+@media (max-width:767px) and (orientation:portrait){ .flex-marquee .track{animation-duration:15s} }
+@media (min-width:768px) and (max-width:1100px) and (orientation:portrait){ .flex-marquee .track{animation-duration:17.5s} }
