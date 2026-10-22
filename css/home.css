@@ -282,7 +282,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
 .form button:hover{background:var(--blush);color:var(--pitch)}
 
 .footer-rule{position:relative;height:calc(42*var(--u));background:var(--forest)}
-.footer-rule hr{position:absolute;left:calc(85*var(--u));top:calc(18*var(--u));width:calc(1262*var(--u));border:0;border-top:1px solid rgba(255,255,255,.35)}
+.footer-rule hr{position:absolute;left:calc(85*var(--u));top:calc(18*var(--u));width:calc(1262*var(--u));border:0;border-top:1px solid rgba(255,255,255,.12)}   /* faint separator; at .35 it read as a glitch on bright screens */
 
 /* ───────── FOOTER ───────── */
 .footer{height:calc(443*var(--u));background:var(--forest)}
