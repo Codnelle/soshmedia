@@ -702,3 +702,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-panel,video::-webkit
 /* flex marquee: the strip is shorter on smaller screens, so loop faster to keep a laptop-like pace */
 @media (max-width:767px) and (orientation:portrait){ .flex-marquee .track{animation-duration:15s} }
 @media (min-width:768px) and (max-width:1100px) and (orientation:portrait){ .flex-marquee .track{animation-duration:17.5s} }
+/* the rotated "All thinks social" pokes above the footer's top edge on smaller screens; footer clipping
+   cut the tall letters (l, k, h) by different amounts as the page scrolled. Let it show in full. */
+.footer{overflow:visible;z-index:2}
+.f-tag{will-change:opacity}
