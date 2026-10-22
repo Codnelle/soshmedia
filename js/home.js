@@ -171,7 +171,11 @@
       var e = easeInOutSine(cover(el, 0, .42)), r = 1 - e, side = el.classList.contains('r') ? 1 : -1;
       var r0 = el.getBoundingClientRect(), vh = w.innerHeight;
       var c = clamp(((r0.top + r0.height / 2) - vh / 2) / (vh / 2 + r0.height / 2), -1, 1);   /* -1 top … 0 middle … 1 bottom */
-      var k = c > 0 ? Math.pow(c, .6) : 0;                                                      /* tilt only on the way in; flat from the middle up */                                       /* reach full tilt a bit sooner */
+      /* tilt only on the way in: once a card has settled flat it stays flat while it scrolls on and
+         off the top; it can tilt again only after dropping fully below the screen */
+      if (c <= 0.05) el._settled = true;
+      else if (r0.top > vh) el._settled = false;
+      var k = !el._settled && c > 0 ? Math.pow(c, .6) : 0;                                       /* reach full tilt a bit sooner */
       var tiltX = 55 * k, tiltY = -side * 32 * k, lift = -110 * Math.abs(k);
       el.style.transformOrigin = '50% 100%';
       el.style.transform = 'perspective(520px) translate3d(0,' + (vw(4) * r).toFixed(1) + 'px,' + lift.toFixed(1) + 'px) rotateX(' + tiltX.toFixed(2) + 'deg) rotateY(' + tiltY.toFixed(2) + 'deg) rotate(' + (side * 3 * r).toFixed(2) + 'deg) scale(' + (.94 + .06 * e).toFixed(3) + ')';
