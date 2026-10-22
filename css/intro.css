@@ -94,14 +94,14 @@ body.leaving{opacity:0}
   .intro-tagline{top:calc(50svh - 70*var(--u));font-size:calc(44*var(--u));line-height:calc(40*var(--u));padding:0 16px}
   .intro-sub{top:calc(50svh + 25*var(--u));font-size:calc(10*var(--u));padding:0 16px}
   .intro-enter{left:50%;top:calc(50svh + 65*var(--u));width:calc(240*var(--u));height:calc(48*var(--u));margin-left:calc(-120*var(--u));font-size:calc(13*var(--u))}
-  .intro-marquee{top:calc(50svh + 233*var(--u));bottom:auto;height:calc(24*var(--u))}   /* button ends at 50svh+113u → same 120u gap as desktop */
+  .intro-marquee{top:calc(50svh + 298*var(--u));bottom:auto;height:calc(24*var(--u))}   /* button ends at 50svh+113u → 185u gap, sits lower on phones */
   .intro-marquee span{font-size:calc(11*var(--u));padding-left:14px}
 }
 /* upright iPads: the intro is scaled up to 2× for bigger type, but the button and the scroller
    should keep the same real size and spacing as on laptop/phone (≈300×60px button, ≈120px gap) */
 @media (orientation:portrait) and (min-width:768px) and (max-width:1100px){
   .intro-enter{width:calc(150*var(--u));height:calc(30*var(--u));margin-left:calc(-75*var(--u));font-size:calc(8.5*var(--u))}
-  .intro-marquee{top:calc(50svh + 155*var(--u));height:calc(18*var(--u))}   /* button ends at 50svh+95u → 60u ≈ 120px gap */
+  .intro-marquee{top:calc(50svh + 190*var(--u));height:calc(18*var(--u))}   /* button ends at 50svh+95u → 95u ≈ 190px gap */
   .intro-marquee span{font-size:calc(8*var(--u))}
   /* corner labels at their laptop size (~14px), with an even 32px inset from the edges */
   .corner{top:calc(16*var(--u));font-size:calc(7*var(--u));letter-spacing:.06em}
