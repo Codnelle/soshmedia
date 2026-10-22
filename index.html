@@ -8,9 +8,14 @@
 <style>html,body{background:#052416;margin:0}</style>
 <title>intro | Sosh Media</title>
 <link rel="icon" href="assets/img/logo.png">
-<script src="js/units.js?v=87"></script>
-<link rel="stylesheet" href="css/fonts.css?v=87">
-<link rel="stylesheet" href="css/intro.css?v=87">
+<script src="js/units.js?v=92"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- non-blocking: the page draws immediately, fonts swap in when they arrive -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&family=Inter:wght@300;400&family=JetBrains+Mono:wght@300;400;500&family=Wix+Madefor+Text:ital,wght@0,400;0,700;1,400;1,700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&family=Inter:wght@300;400&family=JetBrains+Mono:wght@300;400;500&family=Wix+Madefor+Text:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+<link rel="stylesheet" href="css/fonts.css?v=92">
+<link rel="stylesheet" href="css/intro.css?v=92">
 </head>
 <body>
 
@@ -53,7 +58,14 @@ for (let i = 0; i < 80; i++) {
   s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:-${Math.random()*4}s;`;
   starsEl.appendChild(s);
 }
-window.addEventListener('load', () => document.body.classList.add('ready'));
+/* reveal as soon as the page is ready: wait for the web fonts, but never more than ~1.2s, so a slow
+   or blocked font download can't leave visitors looking at an empty green screen */
+const reveal = () => document.body.classList.add('ready');
+document.addEventListener('DOMContentLoaded', () => {
+  const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  Promise.race([fontsReady, new Promise(r => setTimeout(r, 1200))]).then(reveal);
+});
+window.addEventListener('load', reveal);
 
 /* "Come on in": let the pink fill finish, then fade out and go to the landing page */
 const enter = document.querySelector('.intro-enter');

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&family=Inter:wght@300;400&family=JetBrains+Mono:wght@300;400;500&family=Wix+Madefor+Text:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+/* Google Fonts are loaded from <head> without blocking the page (see index.html / home.html) */
 
 /* Fraunces 120pt Light — the exact cuts the original Wix site serves */
 @font-face{font-family:"Fraunces120";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/fraunces120-light.woff2") format("woff2")}

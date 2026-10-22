@@ -36,7 +36,11 @@
 
   function resize() {
     /* the PNG has a transparent margin for its soft shadow (256px "o" in a 336px image), so scale up to keep the "o" the same visible size */
-    var width = (w.innerWidth <= 767 ? 30 : Math.max(44, Math.min(68, w.innerWidth * .042))) * 336 / 256;
+    /* phones and upright iPads keep the original size; only laptops/desktops get the smaller "o" */
+    var stacked = d.documentElement.classList.contains('is-stacked');
+    var base = w.innerWidth <= 767 ? 30 : stacked ? Math.max(44, Math.min(68, w.innerWidth * .042))
+             : Math.max(30, Math.min(44, w.innerWidth * .028));
+    var width = base * 336 / 256;
     plane.style.width = width + 'px';
     plane.style.height = width + 'px';
   }

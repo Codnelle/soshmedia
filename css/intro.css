@@ -65,7 +65,7 @@ body::before{
 body{transition:opacity .45s ease}
 body.leaving{opacity:0}
 
-.intro-marquee{left:var(--off);right:var(--off);top:calc(716*var(--u));height:calc(26*var(--u));overflow:hidden;
+.intro-marquee{left:var(--off);right:var(--off);top:calc(790*var(--u));height:calc(26*var(--u));overflow:hidden;
   border-top:1px solid rgba(110,110,110,.4);border-bottom:1px solid rgba(110,110,110,.4);display:flex;align-items:center}
 .intro-marquee .track{display:flex;white-space:nowrap;animation:marquee 38s linear infinite;opacity:.65}
 .intro-marquee span{font-size:max(10px,calc(12.7*var(--u)));color:var(--grey);text-transform:uppercase;padding-left:calc(14*var(--u))}
