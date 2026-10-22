@@ -698,4 +698,4 @@ video::-webkit-media-controls,video::-webkit-media-controls-panel,video::-webkit
 .stop .stay-text{position:relative;z-index:1;margin-top:calc(-52*var(--u))}
 .stop .stop-video{z-index:2}
 @media (max-width:767px) and (orientation:portrait){ .stop .stay-text{margin-top:calc(-12*var(--u))} }
-@media (min-width:768px) and (max-width:1100px) and (orientation:portrait){ .stop .stay-text{margin-top:calc(-20*var(--u))} }
+@media (min-width:768px) and (max-width:1100px) and (orientation:portrait){ .stop .stay-text{margin-top:calc(-37*var(--u))} }
