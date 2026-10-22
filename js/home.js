@@ -269,11 +269,13 @@
      Bellavita + Kathaa (reset again each time it comes back into view), pause a beat, and drift.
      Before, it drifted from page load, so the first logos had moved on by the time you got there. */
   var inView = false, holdUntil = 0;
+  /* start drifting just before the row scrolls into view (no pause, no visible start), from Bellavita +
+     Kathaa; it is reset back to them only while fully off screen, so the reset is never seen */
   new IntersectionObserver(function (es) {
     var vis = es[0].isIntersecting;
-    if (vis && !inView && setW && !anim) { pos = anchor(); holdUntil = performance.now() + 1200; }
+    if (!vis && setW && !anim) pos = anchor();
     inView = vis;
-  }, { threshold: 0.25 }).observe(track.parentNode);
+  }, { rootMargin: '40px 0px' }).observe(track.parentNode);
   d.querySelector('.arrow.prev').addEventListener('click', function () { holdUntil = 0; step(-1); });
   d.querySelector('.arrow.next').addEventListener('click', function () { holdUntil = 0; step(1); });
   function slide(now) {
