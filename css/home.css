@@ -239,7 +239,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
 .founder-card > *{position:absolute}
 /* founder.png is cut straight through the table (left) and her elbow (right): scale it so both cuts sit on the
    card's edges, so she fills the card; her head rises into the title and sits in front of "RUCHITA". */
-.founder-img{left:calc(-111*var(--u));top:calc(42*var(--u));width:calc(712*var(--u));height:calc(712*var(--u));object-fit:contain;z-index:2}
+.founder-img{left:calc(-111*var(--u));top:calc(26*var(--u));width:calc(712*var(--u));height:calc(712*var(--u));object-fit:contain;z-index:2}
 .founder-card .f-name{z-index:1}
 .founder-card .f-hey,.founder-card .f-im{z-index:3}
 .founder-pill{z-index:5}   /* stays in front of the full-card photo */
@@ -420,7 +420,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
   .founder{height:calc(918*var(--u))}
   .founder-title{left:calc(10*var(--u));top:calc(29*var(--u));width:calc(365*var(--u));text-align:center;font-size:calc(54.81*var(--u));line-height:calc(49.33*var(--u))}
   .founder-card{left:calc(27*var(--u));top:calc(167*var(--u));width:calc(336*var(--u));height:calc(390*var(--u));border-radius:calc(5.74*var(--u))}
-  .founder-img{left:calc(-79*var(--u));top:calc(30*var(--u));width:calc(508*var(--u));height:calc(508*var(--u))}
+  .founder-img{left:calc(-79*var(--u));top:calc(19*var(--u));width:calc(508*var(--u));height:calc(508*var(--u))}
   .f-hey{left:calc(81*var(--u));top:calc(6*var(--u));font-size:calc(40.15*var(--u));line-height:calc(52.2*var(--u))}
   .f-im{left:calc(180*var(--u));top:calc(6*var(--u));font-size:calc(40.36*var(--u));line-height:calc(52.46*var(--u))}
   .f-name{left:calc(1*var(--u));top:calc(44*var(--u));width:calc(331*var(--u));font-size:calc(61.85*var(--u));line-height:calc(80.41*var(--u))}
@@ -561,7 +561,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
   /* FOUNDER */
   .founder{height:calc(393*var(--u))}
   .founder-card{left:calc(61*var(--u));top:calc(8*var(--u));width:calc(303*var(--u));height:calc(366*var(--u));border-radius:calc(12.06*var(--u))}
-  .founder-img{left:calc(-72*var(--u));top:calc(30*var(--u));width:calc(458*var(--u));height:calc(458*var(--u))}   /* card is scaled 1.35× on iPad; these are its unscaled units */
+  .founder-img{left:calc(-72*var(--u));top:calc(19*var(--u));width:calc(458*var(--u));height:calc(458*var(--u))}   /* card is scaled 1.35× on iPad; these are its unscaled units */
   .f-hey{left:calc(53*var(--u));top:calc(15*var(--u));font-size:calc(34.4*var(--u));line-height:calc(44.72*var(--u))}
   .f-im{left:calc(158*var(--u));top:calc(18*var(--u));font-size:calc(30.68*var(--u));line-height:calc(39.88*var(--u))}
   .f-name{left:calc(19*var(--u));top:calc(41*var(--u));width:calc(264*var(--u));font-size:calc(55.26*var(--u));line-height:calc(71.84*var(--u))}
