@@ -367,8 +367,16 @@
     function sizeFirst() { if (ready(pics.anuv)) fit(first, pics.anuv); }
     pics.anuv.addEventListener('load', sizeFirst); sizeFirst();
     function next() {
-      var n = (i + 1) % list.length, pic = pics[list[n]];
-      if (!ready(pic)) return;                            /* not loaded yet: keep the current card a beat longer */
+      /* step to the next picture that has loaded. Before, one slow or failed image froze the whole
+         stack on the current card; now it is skipped (and re-requested) and the loop keeps going */
+      var n = i, pic = null;
+      for (var tries = 0; tries < list.length; tries++) {
+        n = (n + 1) % list.length;
+        var cand = pics[list[n]];
+        if (ready(cand)) { pic = cand; break; }
+        if (cand.complete && !cand.naturalWidth && !cand._retried) { cand._retried = true; cand.src = cand.src.split('?')[0] + '?r=' + Date.now(); }
+      }
+      if (!pic) return;
       i = n;
       var card = d.createElement('img');
       card.className = 'deck-card enter';
@@ -398,6 +406,8 @@
       if (visible) play(); else stop();
     }, { rootMargin: '100px' }).observe(box);
     d.addEventListener('visibilitychange', function () { if (d.hidden) stop(); else play(); });
+    /* coming back with the browser's Back button restores a frozen page: restart the loop */
+    w.addEventListener('pageshow', function () { stop(); play(); });
   })();
 
   /* ───────── BACKGROUND / PHONE VIDEOS: play only while on screen ───────── */
@@ -544,6 +554,16 @@
   }
   w.addEventListener('scroll', request, { passive: true });
   w.addEventListener('resize', layout);
+  /* scroll effects are positioned from measurements; if anything loads late and shifts the page
+     (images, fonts, the form), re-measure so animations still trigger at the right spot */
+  if (w.ResizeObserver) {
+    var lastH = 0, rt = 0;
+    new ResizeObserver(function () {
+      var hgt = d.documentElement.scrollHeight;
+      if (Math.abs(hgt - lastH) < 2) return;
+      lastH = hgt; clearTimeout(rt); rt = setTimeout(layout, 100);
+    }).observe(d.body);
+  }
   w.addEventListener('unitschange', layout);
   w.addEventListener('load', layout);
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(layout);
