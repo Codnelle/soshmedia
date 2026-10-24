@@ -342,8 +342,8 @@
     if (!box) return;
     var list = ['anuv', 'bellavita', 'tenali', 'premier', 'rings', 'evaan-bracelet', 'evaan-earrings',
                 'anniversary', 'premier', 'artist', 'rings', 'sunglasses', 'prism',
-                'sapphire-set', 'champagne-earrings', 'ring-fork'];
-    var tilts = [-7, 5, -3, 8, -5, 3, -8, 6, -4, 7, -6, 4, -2, 6, -5, 3];
+                'sapphire-set', 'champagne-earrings', 'ring-fork', 'trolley-jewellery', 'vanity-organiser'];
+    var tilts = [-7, 5, -3, 8, -5, 3, -8, 6, -4, 7, -6, 4, -2, 6, -5, 3, -6, 5];
     var STEP = 310, KEEP = 3, i = 0, timer = 0, visible = false;
     var pics = {};
     list.forEach(function (n) {                           /* preload once; cards are sized from these */
