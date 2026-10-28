@@ -107,3 +107,13 @@ body.leaving{opacity:0}
   .corner{top:calc(16*var(--u));font-size:calc(7*var(--u));letter-spacing:.06em}
   .corner.tl{left:32px}.corner.tr{right:32px}
 }
+/* centre the logo → button block on screen (it sat high, with a big gap above the scroller) */
+.intro-word,.intro-tagline,.intro-sub{translate:0 var(--dy,0px)}
+.intro-logo{translate:calc(-5*var(--u)) var(--dy,0px)}      /* logo + button were a few px right of centre */
+.intro-enter{translate:calc(-4*var(--u)) var(--dy,0px)}
+:root{--dy:calc(60*var(--u))}
+@media (orientation:portrait) and (max-width:1100px){
+  :root{--dy:calc(40*var(--u))}
+  .intro-logo,.intro-enter{translate:0 var(--dy)}
+}
+@media (orientation:portrait) and (min-width:768px) and (max-width:1100px){ :root{--dy:calc(35*var(--u))} }
