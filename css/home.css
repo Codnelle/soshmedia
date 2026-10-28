@@ -706,3 +706,7 @@ video::-webkit-media-controls,video::-webkit-media-controls-panel,video::-webkit
    cut the tall letters (l, k, h) by different amounts as the page scrolled. Let it show in full. */
 .footer{overflow:visible;z-index:2}
 .f-tag{will-change:opacity}
+/* badge tucked right under the end of the last line ("…obsession."), so it reads as a sticker on the copy */
+html:not(.is-stacked) .stats-copy .stats-stamp{margin-left:calc(150*var(--u))!important;margin-top:calc(-4*var(--u))!important}
+html.is-phone .stats-copy .stats-stamp{margin-top:calc(-8*var(--u))!important}
+html.is-tablet .stats-copy .stats-stamp{margin-top:calc(-8*var(--u))!important}
